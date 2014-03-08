@@ -1,0 +1,39 @@
+lista_infija <= (terminos_infijos)
+INICIO_POSTFIJA
+	pila_postfija <= crear_pila()
+	lista_postfija <= ()
+	MIENTRAS lista_infija != lista_vacia() HACER:
+		E <= extraer_termino(lista_infija)
+		SEGUN_SEA (E):
+			CASO(E) <=> NUMERO:
+				insertar_al_final(lista_postfija, E)
+			CASO(E) <=> VARIABLE:
+				insertar_al_final(lista_postfija, E)
+			CASO(E) <=> PARENT_IZQ:
+				insertar(pila_postfija, E)
+			CASO(E) <=> PARENT_DER:
+				MIENTRAS pila_postfija != pila_vacia AND cima_pila != parent_izq HACER:
+					elemento <= extraer_elemento(pila_postfija)
+					insertar_al_final(lista_postfija, elemento)
+				FIN_MIENTRAS
+				SI elemento <=> parent_izq ENTONCES:
+					elemento <= extraer_elemento(pila_postfija)
+					destruir_elemento(elemento)
+				SI_NO:
+					ERROR_EXP
+				FIN_SI
+				destruir_elemento(E)
+			CASO(E) <=> OPERADOR:
+				MIENTRAS pila_postfija != pila_vacia AND cima_pila <=> operador_mayor_precd() HACER:
+					elemento <= extraer_elemento(pila_postfija)
+					insertar_al_final(lista_postfija, elemento)
+				FIN_MIENTRAS
+				insertar(pila_postfija, E)
+		FIN_SEGUN_SEA
+	FIN_MIENTRAS
+	MIENTRAS pila_postfija != pila_vacia HACER:
+		elemento <= extraer_elemento(pila_postfija)
+		insertar_al_final(lista_postfija, elemento)
+	FIN_MIENTRAS
+	destruir_pila(pila_postfija)
+FIN_POSTFIJA
