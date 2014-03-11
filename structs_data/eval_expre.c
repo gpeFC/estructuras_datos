@@ -57,15 +57,17 @@ void main(void){
 			do{
 				if(stack != NULL){
 					caract = extraccionStack(&stack);
-					if(caract == '(')
+					if(caract == '('){
 						break;
+					}
 					else{
 						postfija[j] = caract;
 						j++;
 					}
 				}
-				else
+				else{
 					break;
+				}
 			}while(1);
 		}
 		else{
@@ -106,6 +108,7 @@ void main(void){
 			}
 		}
 	}
+
 	while(stack != NULL){
 		caract = extraccionStack(&stack);
 		postfija[j] = caract;
@@ -215,16 +218,16 @@ float obtenerResultado(char item, float num1, float num2){
 }
 
 int validaPrioridad(char cima, char oper){
-	if((cima=='*'||cima=='/')&&(oper=='*'||oper=='/')){
+	if((cima=='*'||cima=='/') && (oper=='*'||oper=='/')){
 		return 1;
 	}
-	else if((cima=='*'||cima=='/')&&(oper=='+'||oper=='-')){
+	else if((cima=='*'||cima=='/') && (oper=='+'||oper=='-'||oper=='(')){
 		return 2;
 	}
-	else if((cima=='+'||cima=='-'||cima=='(')&&(oper=='*'||oper=='/')){
+	else if((cima=='+'||cima=='-') && (oper=='*'||oper=='/')){
 		return 3;
 	}
-	else if((cima=='+'||cima=='-')&&(oper=='+'||oper=='-')){
+	else if((cima=='+'||cima=='-') && (oper=='+'||oper=='-'||oper=='(')){
 		return 4;
 	}
 	else if(cima=='('){
