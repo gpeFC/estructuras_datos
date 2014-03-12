@@ -20,17 +20,24 @@ typedef struct Nodo2{
 	struct Nodo2 *sigNodo;
 }tsNODO2;
 
+
+int validaNumero(char item);
+int validaPrioridad(char cima, char oper);
+
+float obtenerNumero(char item);
+float obtenerResultado(char item, float num1, float num2);
+
 void insercionStack2(tsNODO2 **stack2, float valor);
 float extraccionStack2(tsNODO2 **stack2);
 
-int validaNumero(char item);
-float obtenerNumero(char item);
-float obtenerResultado(char item, float num1, float num2);
-int validaPrioridad(char cima, char oper);
+
 void insercionStack(tsNODO **stack, char valor);
 char extraccionStack(tsNODO **stack);
+
 void vaciarTAD(tsNODO **tad);
 void mostrarTAD(tsNODO *tad);
+
+
 
 void main(void){
 	int i,j;
