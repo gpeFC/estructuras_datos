@@ -60,11 +60,11 @@ void main(void){
 						break;
 					}
 					else{
-						if((validaPrioridad(stackChar->dato, infija[i])==1) || (validaPrioridad(stackChar->dato, infija[i])==3) || (validaPrioridad(stackChar->dato, infija[i])==5)){
+						if((validaPrioridad(stackChar->dato, infija[i])==3) || (validaPrioridad(stackChar->dato, infija[i])==5)){
 							insercionStackChar(&stackChar, infija[i]);
 							break;
 						}
-						else if((validaPrioridad(stackChar->dato, infija[i])==2) || (validaPrioridad(stackChar->dato, infija[i])==4)){
+						else if((validaPrioridad(stackChar->dato, infija[i])==2) || (validaPrioridad(stackChar->dato, infija[i])==4) || (validaPrioridad(stackChar->dato, infija[i])==1)){
 							operador = extraccionStackChar(&stackChar);
 							postfija[j] = operador;
 							j++;
