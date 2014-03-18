@@ -83,10 +83,6 @@ void main(void){
 	printf("\nInfija: %s \nPostfija: %s\n", infija, postfija);
 
 	for(i=0;postfija[i]!='\0';i++){
-		if(stackFloat!=NULL){
-			printf("\nActual: ");
-			mostrarStackFloat(stackFloat);
-		}
 		if(validaNumero(postfija[i])){
 			resultado = obtenerNumero(postfija[i]);
 			insercionStackFloat(&stackFloat, resultado);
@@ -96,7 +92,6 @@ void main(void){
 			operando1 = extraccionStackFloat(&stackFloat);
 			resultado = obtenerResultado(postfija[i], operando1, operando2);
 			insercionStackFloat(&stackFloat, resultado);
-			printf("\na(%.3f) [%c] b(%.3f) = %.3f", operando1, postfija[i], operando2, resultado);
 		}
 	}
 	resultado = extraccionStackFloat(&stackFloat);
