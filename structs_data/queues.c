@@ -53,6 +53,9 @@ void main(void){
 
 		tiempo++;
 		for(i=0;i<500000000;i++){}
+
+		if(&cabezaQ==NULL)
+			break;
 	}
 	printf("\n\n");
 }
