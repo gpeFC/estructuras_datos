@@ -12,41 +12,47 @@
 #include "mislistas.h"
 
 void main(void){
-	int i, num, item=65;
+	int i, num, tiempo=1, item=65, num_cajas[3];
+	char etq_cajas[3];
 	tsNODO *cabezaQ=NULL, *colaQ=NULL;
-	tsNODO *lista=NULL;
 
 	srand(time(NULL));
 
-	num = rand() % 2+3;
-	for(i=0;i<num;i++){
-		insercionLista(&lista, 'Z', i+1);
-	}
-	num = rand() % 14+5;
-	for(i=0;i<num;i++){
+	num = rand() % 10+5;
+	for(i=0;i<num;i++)
 		insercionQueue(&cabezaQ, &colaQ, item+i, rand()%7+3);
+
+	for(i=0;i<3;i++){
+		num_cajas[i] = 0;
+		etq_cajas[i] = '0';
 	}
 
-	printf("\n");
-	mostrarLista(lista);
-	printf("\n");
-
-	printf("\n{ ");
-	mostrarQueue(cabezaQ);
-	printf("}\n");
-
-	do{
+	while(&cabezaQ){
 		system("clear");
+		printf("\nTiempo: [%d]\n", tiempo);
+
+		for(i=0;i<3;i++)
+			if(etq_cajas[i]=='0')
+				extraccionQueue(&cabezaQ, &etq_cajas[i], &num_cajas[i]);
 
 		printf("\n");
-		mostrarLista(lista);
+		for(i=0;i<3;i++)
+			printf("|CAJA(%d):CLIENTE(%c)|\t", i+1, etq_cajas[i]);
 		printf("\n");
 
 		printf("\n{ ");
 		mostrarQueue(cabezaQ);
 		printf("}\n");
 
-		
+		for(i=0;i<3;i++)
+			num_cajas[i]--;
 
-	}while(*colaQ != NULL);
+		for(i=0;i<3;i++)
+			if(num_cajas[i]==0)
+				etq_cajas[i] = '0';
+
+		tiempo++;
+		for(i=0;i<500000000;i++){}
+	}
+	printf("\n\n");
 }

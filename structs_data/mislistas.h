@@ -6,27 +6,11 @@
 * Practica: Aplicaciones de LE y Queues(Funciones y procedimientos/TAD Queue).
 ******************************************************************************/
 
-typedef struct Nodo{
+typedef struct NodoQ{
 	char etiqueta;
 	int numero;
-	struct Nodo *sigNodo;
+	struct NodoQ *sigNodo;
 }tsNODO;
-
-void actualizaCaja(){}
-
-void insercionLista(tsNODO **lista, char etq, int num){
-	tsNODO *nodo;
-	nodo = (tsNODO*)malloc(sizeof(tsNODO));
-	nodo->etiqueta = etq;
-	nodo->numero = num;
-	nodo->sigNodo = NULL;
-	if(*lista == NULL)
-		*lista = nodo;
-	else{
-		nodo->sigNodo = *lista;
-		*lista = nodo;
-	}
-}
 
 void insercionQueue(tsNODO **cabeza, tsNODO **cola, char etq, int num){
 	tsNODO *nodo;
@@ -47,6 +31,7 @@ void insercionQueue(tsNODO **cabeza, tsNODO **cola, char etq, int num){
 void extraccionQueue(tsNODO **cabeza, char *etq, int *num){
 	tsNODO *nodo;
 	if(*cabeza == NULL){
+		printf("\nQueue vacios...\n");
 		*etq = '0';
 		*num = 0;
 	}
@@ -59,15 +44,6 @@ void extraccionQueue(tsNODO **cabeza, char *etq, int *num){
 	}
 }
 
-void mostrarLista(tsNODO *lista){
-	tsNODO *nodo;
-	nodo = lista;
-	while(nodo != NULL){
-		printf("|Caja[%d]:Cliente[%c]|\t", nodo->numero, nodo->etiqueta);
-		nodo = nodo->sigNodo;
-	}
-}
-
 void mostrarQueue(tsNODO *cabeza){
 	tsNODO *nodo;
 	nodo = cabeza;
@@ -76,14 +52,3 @@ void mostrarQueue(tsNODO *cabeza){
 		nodo = nodo->sigNodo;
 	}
 }
-
-void vaciarLista(tsNODO **lista){
-	tsNODO *nodo;
-	nodo = *lista;
-	while(nodo != NULL){
-		*lista = (*lista)->sigNodo;
-		free(nodo);
-		nodo = *lista;
-	}
-}
-
