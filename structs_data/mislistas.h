@@ -30,12 +30,7 @@ void insercionQueue(tsNODO **cabeza, tsNODO **cola, char etq, int num){
 
 void extraccionQueue(tsNODO **cabeza, char *etq, int *num){
 	tsNODO *nodo;
-	if(*cabeza == NULL){
-		printf("\nQueue vacios...\n");
-		*etq = '0';
-		*num = 0;
-	}
-	else{
+	if(*cabeza){
 		nodo = *cabeza;
 		*cabeza = (*cabeza)->sigNodo;
 		*etq = nodo->etiqueta;
