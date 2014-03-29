@@ -1,0 +1,9 @@
+\beamer@endinputifotherversion {3.24pt}
+\beamer@sectionintoc {2}{Listas Enlazadas(Estructuras Ligadas)}{3}{0}{1}
+\beamer@subsectionintoc {2}{1}{Clasificaci\IeC {\'o}n}{5}{0}{1}
+\beamer@subsectionintoc {2}{2}{Operaciones}{10}{0}{1}
+\beamer@sectionintoc {3}{Aplicaciones de Listas Enlazadas}{11}{0}{2}
+\beamer@sectionintoc {4}{Listas Enlazadas en C}{12}{0}{3}
+\beamer@subsectionintoc {4}{1}{TDA Nodo}{12}{0}{3}
+\beamer@subsectionintoc {4}{2}{Memoria Dinamica}{13}{0}{3}
+\beamer@subsectionintoc {4}{3}{Punteros y acceso al TAD}{15}{0}{3}
