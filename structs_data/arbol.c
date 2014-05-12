@@ -8,6 +8,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
 typedef struct Raiz{
 	struct Raiz *subIzq;
@@ -16,7 +17,9 @@ typedef struct Raiz{
 }ARBOL;
 
 int buscar(ARBOL *raiz, int num);
+int suma(ARBOL *raiz, int num);
 void insertar(ARBOL **raiz, int num);
+void reemplazar(ARBOL **raiz);
 void eliminar(ARBOL **raiz, int num);
 void mostrarArbolPreOrden(ARBOL *raiz);
 void mostrarArbolEnOrden(ARBOL *raiz);
@@ -47,8 +50,10 @@ void main(void){
 			if(arbol){
 				printf("\nNumero a buscar: ");
 				scanf("%d", &numero);
-				if(buscar(arbol, numero))
+				if(buscar(arbol, numero)){
 					printf("\nEl numero %d existe en el arbol.", numero);
+					printf("\nSuma: %d", (suma(arbol, numero))-1);
+				}
 				else
 					printf("\nEl numero %d no existe en el arbol.", numero);
 			}
@@ -72,6 +77,22 @@ void main(void){
 			continuar = getchar();
 		}
 		else if(opcion==3){
+			system("clear");
+			printf("\t\tEliminar...\n");
+			if(arbol){
+				printf("\nNumero a eliminar: ");
+				scanf("%d", &numero);
+				if(buscar(arbol, numero)){
+					eliminar(&arbol, numero);
+				}
+				else
+						printf("\nEl numero %d no existe en el arbol.", numero);
+			}
+			else
+				printf("\nArbol vacio...");
+			printf("\nPresione <Enter> para continuar...");
+			while(getchar()!='\n');
+			continuar = getchar();
 		}
 		else if(opcion==4){
 			system("clear");
@@ -100,8 +121,6 @@ void main(void){
 	}while(opcion != 5);
 	if(arbol)
 		borrarArbol(&arbol);
-	else
-		printf("\nArbol nulo...\n");
 }
 
 
@@ -114,6 +133,17 @@ int buscar(ARBOL *raiz, int num){
 		return buscar(raiz->subIzq, num);
 	else
 		return buscar(raiz->subDer, num);
+}
+
+int suma(ARBOL *raiz, int num){
+	if(!raiz)
+		return 0;
+	else if(num == raiz->numero)
+		return 1;
+	else if(num < raiz->numero)
+		return ((suma(raiz->subIzq, num))+1);
+	else
+		return ((suma(raiz->subDer, num))+1);
 }
 
 void insertar(ARBOL **raiz, int num){
@@ -131,9 +161,55 @@ void insertar(ARBOL **raiz, int num){
 		insertar(&((*raiz)->subDer), num);
 }
 
+void reemplazar(ARBOL **raiz){
+	ARBOL *aux, *temp;
+	temp = *raiz;
+	if((rand()%2)==0){
+		aux = (*raiz)->subIzq;
+		while(aux->subDer){
+			temp = aux;
+			aux = aux->subDer;
+		}
+		(*raiz)->numero = aux->numero;
+		if(temp == (*raiz))
+			temp->subIzq = aux->subIzq;
+		else
+			temp->subDer = aux->subIzq;
+		(*raiz) = aux;
+	}
+	else{
+		aux = (*raiz)->subDer;
+		while(aux->subIzq){
+			temp = aux;
+			aux = aux->subIzq;
+		}
+		(*raiz)->numero = aux->numero;
+		if(temp == (*raiz))
+			temp->subDer = aux->subDer;
+		else
+			temp->subIzq = aux->subDer;
+		(*raiz) = aux;
+	}
+}
+
 void eliminar(ARBOL **raiz, int num){
-	ARBOL *hoja, *reemplazo;
-	if(*raiz){
+	ARBOL *hoja;
+	if((*raiz)){
+		if(num < (*raiz)->numero)
+			eliminar(&((*raiz)->subIzq), num);
+		else if(num > (*raiz)->numero)
+			eliminar(&((*raiz)->subDer), num);
+		else{
+			hoja = (*raiz);
+			if(hoja->subIzq == NULL)
+				(*raiz) = hoja->subDer;
+			else if(hoja->subDer == NULL)
+				(*raiz) = hoja->subIzq;
+			else{
+				reemplazar(&hoja);
+			}
+			free(hoja);
+		}
 	}
 }
 
@@ -163,10 +239,8 @@ void mostrarArbolPostOrden(ARBOL *raiz){
 
 void borrarArbol(ARBOL **raiz){
 	if(*raiz){
-		if((*raiz)->subIzq)
-			borrarArbol(&((*raiz)->subIzq));
-		if((*raiz)->subDer)
-			borrarArbol(&((*raiz)->subDer));
+		borrarArbol(&((*raiz)->subIzq));
+		borrarArbol(&((*raiz)->subDer));
 		free(*raiz);
 		*raiz = NULL;
 	}
