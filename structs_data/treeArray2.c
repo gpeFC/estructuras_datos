@@ -22,7 +22,7 @@ typedef struct Raiz{
 
 void mutarPalabra(char* cadena, char* origen);
 ARBOL* crearNodo(char* cadena, char* origen);
-void generaNodos(ARBOL** raiz, char* cadena, char* origen);
+int generaNodos(ARBOL** raiz, char* cadena, char* origen);
 int buscarNodo(ARBOL *raiz, char* cadena);
 void imprimeNodos(ARBOL* raiz);
 void borrarArbol(ARBOL **raiz);
@@ -48,40 +48,45 @@ void main(void){
 		else
 			aleatoria[i] = rand() % 25+97;
 	}
+	strcpy(aleatoria, "arbml");
 
 	printf("\nPalabras::=> Entrada(%s), Generada(%s).\n", palabra, aleatoria);
 
 	c = 0;
 	arbol = crearNodo(aleatoria, palabra);
-	while(c < 15){
-		generaNodos(&arbol, aleatoria, palabra);
-		c++;
+
+	while(1){ // Aqui se indica cuantos niveles del arbol se van a generar.
+		c = generaNodos(&arbol, aleatoria, palabra);
+		if(c)
+			break;
 	}
-	imprimeNodos(arbol);
-	if(buscarNodo(arbol, palabra))
+
+	
+	if(buscarNodo(arbol, palabra)) // Cuando hace la busqueda, va imprimiendo las palabras de cada nodo en Pre-Orden.
 		printf("\nPalabra encontrada...\n");
 	else
 		printf("\nPalabra no encontrada...\n");
+	printf("\nBuscada: (%s)\n", palabra);
 	borrarArbol(&arbol);
 }
 
+// La funcion esta condicionada para solo modificar una letra equivocada.
 void mutarPalabra(char* cadena, char* origen){
-	int i;
+	int i, j;
 	for(i=0;i<strlen(cadena);i++){
 		if(cadena[i] != origen[i]){
-			if((rand()%2) == 0){
-				if((rand()%2) == 1){
-					if(cadena[i] == 122)
-						cadena[i] = 97;
-					else
-						cadena[i] = cadena[i] + 1;
-				}
-				else{
-					if(cadena[i] == 97)
-						cadena[i] = 122;
-					else
-						cadena[i] = cadena[i] - 1;
-				}
+			j = rand()%2;
+			if(j == 1){
+				if(cadena[i] == 122)
+					cadena[i] = 97;
+				else
+					cadena[i] = cadena[i] + 1;
+			}
+			else{
+				if(cadena[i] == 97)
+					cadena[i] = 122;
+				else
+					cadena[i] = cadena[i] - 1;
 			}
 		}
 	}
@@ -96,7 +101,7 @@ ARBOL* crearNodo(char* cadena, char* origen){
 	return nodo;
 }
 
-void generaNodos(ARBOL** raiz, char* cadena, char* origen){
+int generaNodos(ARBOL** raiz, char* cadena, char* origen){
 	if(*raiz){
 		generaNodos(&((*raiz)->subIzq), (*raiz)->palabra, origen);
 		generaNodos(&((*raiz)->subCen), (*raiz)->palabra, origen);
@@ -104,19 +109,27 @@ void generaNodos(ARBOL** raiz, char* cadena, char* origen){
 	}
 	else{
 		*raiz = crearNodo(cadena, origen);
-		//return 1;
+		printf("(%s) ", (*raiz)->palabra);
+		if((strcmp((*raiz)->palabra, origen))==0)
+			return 1;
+		else
+			return 0;
 	}
 }
 
 int buscarNodo(ARBOL* raiz, char* cadena){
 	if(!raiz)
 		return 0;
-	else if((strcmp(raiz->palabra, cadena))==0)
-		return 1;
 	else{
-		buscarNodo(raiz->subIzq, cadena);
-		buscarNodo(raiz->subCen, cadena);
-		buscarNodo(raiz->subDer, cadena);
+		printf("(%s) ", raiz->palabra);
+		if((strcmp(raiz->palabra, cadena))==0){
+			return 1;
+		}
+		else{
+			buscarNodo(raiz->subIzq, cadena);
+			buscarNodo(raiz->subCen, cadena);
+			buscarNodo(raiz->subDer, cadena);
+		}
 	}
 }
 
